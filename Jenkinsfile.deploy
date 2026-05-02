@@ -1,0 +1,29 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Deploy to Kubernetes') {
+            steps {
+                sh '''
+                    kubectl config use-context kind-pedinephro-cluster
+                    kubectl set image deployment/eureka eureka=azizos07/eureka:latest -n pedinephro
+                '''
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Eureka deployment updated successfully!'
+        }
+        failure {
+            echo 'Eureka deployment failed!'
+        }
+    }
+}

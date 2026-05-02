@@ -1,0 +1,37 @@
+# Maven
+target/
+.mvn/
+mvnw
+mvnw.cmd
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Docker
+Dockerfile
+.dockerignore
+
+# Jenkins
+Jenkinsfile
+Jenkinsfile.deploy
+
+# Documentation
+HELP.md
+README.md
+
+# Test files
+src/test/
