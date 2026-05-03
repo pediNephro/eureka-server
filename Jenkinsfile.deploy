@@ -1,6 +1,12 @@
 pipeline {
     agent any
 
+    environment {
+        DOCKER_HUB_REPO = 'azizos07/eureka'
+        SERVICE_NAME = 'eureka'
+        NAMESPACE = 'pedinephro'
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -9,10 +15,14 @@ pipeline {
         }
 
         stage('Deploy to Kubernetes') {
+            when {
+                branch 'master'
+            }
             steps {
                 sh '''
                     kubectl config use-context kind-pedinephro-cluster
-                    kubectl set image deployment/eureka eureka=azizos07/eureka:latest -n pedinephro
+                    kubectl set image deployment/${SERVICE_NAME} ${SERVICE_NAME}=${DOCKER_HUB_REPO}:latest -n ${NAMESPACE}
+                    kubectl rollout status deployment/${SERVICE_NAME} -n ${NAMESPACE}
                 '''
             }
         }
